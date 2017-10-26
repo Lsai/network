@@ -3,12 +3,17 @@
 #include <arpa/inet.h>
 #include <stdio.h>
 #include <strings.h>
+#include "gene.h"
 #define MAXLINE 4096
 #define SERV_PORT 9877
 void str_cli(FILE *fp, int sockfd){
     char sendline[MAXLINE], recvline[MAXLINE];
     while(fgets(sendline, MAXLINE, fp)!=NULL){
-        
+        writen(sockfd, sendline, strlen(sendline));
+        if(readline(sockfd, recvline, MAXLINE)==0){
+            printf("str_cli:server terminated");
+        }
+        fputs(recvline, stdout);
     }
 
 
